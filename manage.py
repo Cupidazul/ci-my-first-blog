@@ -17,7 +17,7 @@ def main():
     is_testing = 'test' in sys.argv
     if is_testing:
         import coverage
-        cov = coverage.coverage(source=['mysite'], omit=['*/tests/*'])
+        cov = coverage.coverage(source=['.'], omit=['*/tests/*'])
         cov.set_option('report:show_missing', True)
         cov.erase()
         cov.start()

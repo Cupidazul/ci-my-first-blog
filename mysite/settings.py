@@ -126,7 +126,6 @@ TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 
 NOSE_ARGS = [
     '--cover-erase',
-    '--cover-package=mysite',
-    '--with-xunit',
-    '--xunit-file=xunittest.xml',
+    '--cover-package=.',
+    '--cover-html-dir=reports'
 ]
