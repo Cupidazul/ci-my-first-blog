@@ -1,2 +1,2 @@
 Django~=2.2.4
-coverage=7.3.4
+coverage«=7.3.4
