@@ -3,7 +3,6 @@
 import os
 import sys
 
-
 def main():
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'mysite.settings')
     try:
@@ -14,7 +13,21 @@ def main():
             "available on your PYTHONPATH environment variable? Did you "
             "forget to activate a virtual environment?"
         ) from exc
+
+    is_testing = 'test' in sys.argv
+    if is_testing:
+        import coverage
+        cov = coverage.coverage(source=['mysite'], omit=['*/tests/*'])
+        cov.set_option('report:show_missing', True)
+        cov.erase()
+        cov.start()
+    # Add this 5 line above
     execute_from_command_line(sys.argv)
+    # and add this 4 line below
+    if is_testing:
+        cov.save()
+        cov.html_report(directory='reports')  # add this line
+        cov.report()
 
 
 if __name__ == '__main__':

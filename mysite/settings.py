@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'blog.apps.BlogConfig',
+    'django_nose'
 ]
 
 MIDDLEWARE = [
@@ -121,6 +122,11 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
-NOSE_ARGS = ['--with-spec', '--spec-color', 
-         '--with-coverage', '--cover-html', 
-         '--cover-package=.', '--cover-html-dir=reports/cover']
+TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
+
+NOSE_ARGS = [
+    '--cover-erase',
+    '--cover-package=mysite',
+    '--with-xunit',
+    '--xunit-file=xunittest.xml',
+]

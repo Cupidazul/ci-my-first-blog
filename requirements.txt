@@ -1,2 +1,6 @@
-Django~=2.2.4
-coverage«=7.3.4
+coverage==7.3.4
+Django==2.2.28
+django-nose==1.4.7
+nose==1.3.7
+pytz==2023.3.post1
+sqlparse==0.4.4
