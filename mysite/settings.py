@@ -121,3 +121,6 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
+NOSE_ARGS = ['--with-spec', '--spec-color', 
+         '--with-coverage', '--cover-html', 
+         '--cover-package=.', '--cover-html-dir=reports/cover']
