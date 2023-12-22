@@ -23,3 +23,4 @@ For the language guide tutorial, see https://circleci.com/docs/2.0/language-pyth
 This guide uses this sample Django application to describe configuration best practices for Python applications building on CircleCI. The application is hosted on GitHub and is building on CircleCI.
 
 Consider forking the repository and rewriting the configuration file as you follow this guide.
+
