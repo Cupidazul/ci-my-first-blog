@@ -24,3 +24,4 @@ This guide uses this sample Django application to describe configuration best pr
 
 Consider forking the repository and rewriting the configuration file as you follow this guide.
 
+ 
