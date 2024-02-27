@@ -33,7 +33,7 @@ jobs:
       - name: Run QA Tests
         run: |
           echo "Executando testes de qualidade e segurança..."
-          flake8 .
+          python -m flake8 .
           pytest --cov-report term-missing --cov=. tests/
 
       - name: Run Security Tests
