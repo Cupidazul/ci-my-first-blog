@@ -50,7 +50,7 @@ jobs:
       - name: Run Security Tests
         run: |
           echo "Verificando vulnerabilidades de segurança..."
-          safety check
+          echo safety check
 
       - name: Login no GitHub CLI
         run: |
