@@ -1,4 +1,4 @@
-# my-first-blog
+# my-first-blog Version 1.1
 Create a local virtual environment with `virtualenv` and install the dependencies with `pip`.
 
 ### Ensure you are using Python version 3
