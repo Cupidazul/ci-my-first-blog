@@ -53,6 +53,8 @@ jobs:
           echo safety check
 
       - name: Login no GitHub CLI
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           echo "Autenticando no GitHub CLI..."
           gh auth status
