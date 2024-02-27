@@ -55,7 +55,6 @@ jobs:
       - name: Login no GitHub CLI
         run: |
           echo "Autenticando no GitHub CLI..."
-          echo ${{ secrets.GITHUB_TOKEN }} | gh auth login --with-token
           gh auth status
 
       - name: Get Open Pull Requests
