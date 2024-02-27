@@ -1,0 +1,79 @@
+name: Deploy All PRs to DEV and PROD
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  test_and_deploy_to_dev_and_prod:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0 # Buscar todo o Histórico para operações git adequadas
+
+      - name: Install curl, jq, gh, and flake8
+        run: |
+          sudo apt-get update && sudo apt-get install -y curl jq python3-flake8
+          sudo snap install --classic gh
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run QA Tests
+        run: |
+          echo "Executando testes de qualidade e segurança..."
+          flake8 .
+          pytest --cov-report term-missing --cov=. tests/
+
+      - name: Run Security Tests
+        run: |
+          echo "Verificando vulnerabilidades de segurança..."
+          safety check
+
+      - name: Login no GitHub CLI
+        run: |
+          echo "Autenticando no GitHub CLI..."
+          gh auth login --with-token {{ secrets.GITHUB_TOKEN }}
+
+      - name: Get Open Pull Requests
+        id: prs
+        run: |
+          echo "Obtendo todas as pull requests abertas..."
+          PRS=$(gh pr list --state open --json number | jq -r '.[].number' | tr '\n' ',')
+          echo "::set-output name=prs:$PRS"
+
+      - name: Implementar no ambiente DEV
+        run: |
+          echo "Implementando todas as pull requests abertas no ambiente de desenvolvimento (DEV)..."
+          PRS=${{ steps.prs.output.prs }}
+          for pr_number in $PRS; do
+            git fetch origin pull/$pr_number/merge
+            git merge FETCH_HEAD --no-edit
+            # Adicione comandos de implantanção para o ambiente (DEV) aqui
+            # Exemplo: scp -r ./sua_aplicacao/* usuario@servidor_dev:/caminho/para/implementar
+          done
+
+      - name: Aprovação Manual para Implementação em PROD
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "Aprovação Manual para implantação em PROD"
+          branch: main
+
+      - name: Implementar no ambiente PROD
+        if: github.event_name == 'workflow_dispatch' || github.event_name == 'push'
+        run: |
+          echo "Implementando no ambiente de produção (PROD) após aprovação manual..."
+          # Adicione comandos de implantanção para o ambiente (PROD) aqui
+          # Exemplo: scp -r ./sua_aplicacao/* usuario@servidor_prod:/caminho/para/implementar
